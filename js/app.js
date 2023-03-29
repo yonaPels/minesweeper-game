@@ -2,7 +2,7 @@
 
 const BOARD_WIDTH = 8
 const BOARD_LENGTH = 8
-const MINES_AMOUNT = 8
+const MINES_AMOUNT = 10
 const MINE_IMG = '🎆'
 const FLAG_IMG = '🚩'
 const HAPPY_IMG = '😊'
@@ -136,10 +136,12 @@ function updateNegs() {
 }
 
 function onCellMarked(i, j) {
-    gBoard[i][j].isMarked = true
+    if (!gTimerIntervalId) startTimer()
+    gBoard[i][j].isMarked = (gBoard[i][j].isMarked) ? false : true
+    console.log('gBoard[i][j].isMarked:', gBoard[i][j].isMarked)
     const elCell = document.querySelector(`.cell-${i}-${j}`)
-    elCell.innerText = FLAG_IMG
-    gGame.markedCount++
+    elCell.innerText = (gBoard[i][j].isMarked) ? FLAG_IMG : ""
+    gGame.markedCount = (gBoard[i][j].isMarked) ? gGame.markedCount + 1 : gGame.markedCount - 1
     checkVictory()
 }
 
