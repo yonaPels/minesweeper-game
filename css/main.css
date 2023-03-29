@@ -1,0 +1,38 @@
+footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+table {
+    margin: auto;
+    margin-top: 30px;
+    background-color: black;
+}
+
+.cell {
+    background-color: hwb(219 15% 31%);
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.shown {
+    background-color: aliceblue;
+}
+
+.explosion {
+    background-color: hsl(256, 88%, 3%);
+}
+
+footer {
+    font-size: 30px;
+}
+
+.timer {
+    text-align: center;
+    font-size: 36px;
+    margin-top: 30px;
+
+
+}
