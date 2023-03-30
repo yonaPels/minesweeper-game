@@ -44,6 +44,7 @@ function onCellClicked(ROW, COL) {
         setMinesCount(ROW, COL)
         updateNegs()
     }
+    if (gGame.hintMode) return getHint(ROW, COL)
     if (gBoard[ROW][COL].isMarked || gBoard[ROW][COL].isShown) return
     const elCell = document.querySelector(`.cell-${ROW}-${COL}`)
     gBoard[ROW][COL].isShown = true
@@ -165,7 +166,9 @@ function createGame() {
         lives: 3,
         markedCount: 0,
         shownCount: 0,
-        secsPassed: 0
+        countHints: 3,
+        hintMode: false,
+        safeClicks: 3
     }
 }
 
@@ -175,7 +178,6 @@ function createBoard() {
 }
 
 function onStartlevel1() {
-    console.log('test')
     gBoardSize = 4
     gMinesAmount = 2
     onInit()
@@ -190,4 +192,62 @@ function onStartlevel3() {
     gBoardSize = 12
     gMinesAmount = 32
     onInit()
+}
+
+function onGetHint() {
+    if (!gGame.countHints) return
+    gGame.hintMode = true
+    const elHints = document.querySelector(".hint")
+    elHints.style.backgroundColor = "red"
+}
+
+function getHint(ROW, COL) {
+    var toClose = []
+    for (var i = ROW - 1; i <= ROW + 1; i++) {
+        if (i < 0 || i >= gBoardSize) continue
+        for (var j = COL - 1; j <= COL + 1; j++) {
+            if (j < 0 || j >= gBoardSize) continue
+            const elCell = document.querySelector(`.cell-${i}-${j}`)
+            if (gBoard[i][j].isShown) continue
+            elCell.classList.add("shown")
+            if (gBoard[i][j].minesAroundCount) elCell.innerText = gBoard[i][j].minesAroundCount
+            if (gBoard[i][j].isMine) elCell.innerText = `${MINE_IMG}`
+            toClose.push({ i, j })
+        }
+    }
+    setTimeout(() => {
+        for (var idx = 0; idx < toClose.length; idx++) {
+            const elCell = document.querySelector(`.cell-${toClose[idx].i}-${toClose[idx].j}`)
+            elCell.classList.remove("shown")
+            elCell.innerText = ''
+        }
+        const elHints = document.querySelector(".hint")
+        elHints.style.backgroundColor = "aliceblue"
+        gGame.hintMode = false
+    }, 1000)
+    gGame.countHints--
+}
+
+function onSafeClick() {
+    if (!gGame.safeClicks) return
+    gGame.safeClicks--
+    const safeCelles = []
+    for (var i = 0; i < gBoardSize; i++) {
+        for (var j = 0; j < gBoardSize; j++) {
+            const pos = { i, j }
+            if (!gBoard[i][j].isShown && !gBoard[i][j].isMarked) safeCelles.push(pos)
+        }
+    }
+    const randomIdx = getRandomInt(0, safeCelles.length)
+    const pos = safeCelles[randomIdx]
+    const elCell = document.querySelector(`.cell-${pos.i}-${pos.j}`)
+    elCell.classList.add("safecell")
+    const elBtn = document.querySelector(".safeclick")
+    elBtn.style.backgroundColor = "hsl(182, 79%, 21%)"
+    setTimeout(() => {
+        elCell.classList.remove("safecell")
+        elBtn.style.backgroundColor = "aliceblue"
+    }, 5000)
+    const strHTML = `${gGame.safeClicks} SAFE CLICKS`
+    elBtn.innerText = strHTML
 }

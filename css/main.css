@@ -23,6 +23,10 @@ table {
     background-color: aliceblue;
 }
 
+.safecell {
+    background-color: hsl(182, 79%, 21%);
+}
+
 .explosion {
     background-color: hsl(256, 88%, 3%);
 }
@@ -31,17 +35,10 @@ footer {
     font-size: 30px;
 }
 
-.timer {
-    font-size: 25px;
-    background-color: aliceblue;
-    padding: 15px 35px;
-    border-radius: 20%;
-}
-
 .smily {
     background-color: aliceblue;
     padding: 10px 30px;
-    border-radius: 20%;
+    border-radius: 10px;
     display: block;
     font-size: 60px;
     margin: auto;
@@ -57,7 +54,7 @@ footer {
     cursor: pointer;
     margin: auto;
     width: 360px;
-    color: #ffffff;
+    color: aliceblue;
     font-family: Arial;
     font-size: 19px;
     display: block;
@@ -73,5 +70,39 @@ footer {
     border: 0.1px black solid;
     background: rgb(255, 255, 255);
     margin: 20px 10px;
+    cursor: pointer;
+}
 
+.hint {
+    background-color: aliceblue;
+    height: 70px;
+    width: 140px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 30px;
+}
+
+.safeclick {
+    background-color: aliceblue;
+    height: 70px;
+    width: 140px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 30px;
+}
+
+.timer {
+    background-color: aliceblue;
+    border-radius: 10px;
+    height: 70px;
+    width: 140px;
+    margin: 30px;
+}
+
+.preparation {
+    background-color: aliceblue;
+    border-radius: 10px;
+    height: 70px;
+    width: 140px;
+    margin: 30px;
 }
