@@ -125,8 +125,9 @@ function updateNegs() {
 
 function onCellMarked(i, j) {
     if (!gTimerIntervalId) startTimer()
-    if (gBoard[i][j].isMine && gBoard[i][j].isShown) return
+    if (gBoard[i][j].isShown) return
     gBoard[i][j].isMarked = (gBoard[i][j].isMarked) ? false : true
+    if (gBoard[i][j].isMarked) playAudio("sound/flag.mp3")
     const elCell = document.querySelector(`.cell-${i}-${j}`)
     elCell.innerText = (gBoard[i][j].isMarked) ? FLAG_IMG : ""
     if (gBoard[i][j].isMarked && gBoard[i][j].isMine) gGame.markedCount++
@@ -136,7 +137,7 @@ function onCellMarked(i, j) {
 
 function checkVictory() {
     if (gGame.shownCount + gGame.markedCount === gBoardSize * gBoardSize) {
-        console.log('victori')
+        playAudio("sound/victory.mp3")
         clearInterval(gTimerIntervalId)
         renderSmily(HAPPY_IMG)
     }
