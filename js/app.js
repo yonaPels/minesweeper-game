@@ -99,7 +99,7 @@ function gameOver() {
                     elCell.innerText = `${MINE_IMG}`
                     elCell.classList.add("explosion")
                     playAudio("sound/explotion.mp3")
-                }, 700)
+                }, 700 + i * 300 + j * 100)
             }
         }
     }
