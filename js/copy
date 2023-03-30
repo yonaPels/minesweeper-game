@@ -1,24 +1,41 @@
 'use strict'
 
-
+const BOARD_WIDTH = 8
+const BOARD_LENGTH = 8
+const MINES_AMOUNT = 10
 const MINE_IMG = '🎆'
 const FLAG_IMG = '🚩'
 const HAPPY_IMG = '😊'
 const SADNESS_IMG = '😒'
-const NORMAL_IMG = '🫡'
 
-var gBoardSize = 8
-var gMinesAmount = 14
+
+const beginner = { length: 8, width: 8, minesAmount: 10 }
+const intermediate = { length: 12, width: 12, minesAmount: 20 }
+const expert = { length: 16, width: 16, minesAmount: 40 }
+
 var gBoard
-var gGame
 var gTimerIntervalId
 
+const gGame = {
+    isOn: false,
+    lives: 3,
+    markedCount: 0,
+    shownCount: 0,
+    secsPassed: 0
+}
+
 function onInit() {
-    renderSmily(NORMAL_IMG)
-    gGame = createGame()
-    gBoard = createBoard(gBoardSize)
+    gBoard = createBoard(gBoardSize, gBoardSize)
+    // console.table(gBoard)
+    // console.log(gBoard)
     renderBoard(gBoard, ".board")
 }
+
+function createBoard() {
+    const board = createMat(gBoardSize, gBoardSize)
+    return board
+}
+
 
 function renderBoard(mat, selector) {
     var strHTML = '<table><tbody>'
@@ -34,6 +51,7 @@ function renderBoard(mat, selector) {
     }
     strHTML += '</tbody></table>'
     const elContainer = document.querySelector(selector)
+    // console.log('gBoard:', gBoard)
     elContainer.innerHTML = strHTML
 }
 
@@ -44,7 +62,6 @@ function onCellClicked(ROW, COL) {
         setMinesCount(ROW, COL)
         updateNegs()
     }
-    if (gBoard[ROW][COL].isMarked) return
     const elCell = document.querySelector(`.cell-${ROW}-${COL}`)
     gBoard[ROW][COL].isShown = true
     elCell.classList.add("shown")
@@ -82,11 +99,11 @@ function getMineExplotion(elCell) {
     elCell.classList.add("explosion")
     gGame.lives--
     if (gGame.lives === 0) gameOver()
+
 }
 
 function gameOver() {
     clearInterval(gTimerIntervalId)
-    renderSmily(SADNESS_IMG)
     console.log('game over')
     for (var i = 0; i < gBoardSize; i++) {
         for (var j = 0; j < gBoardSize; j++) {
@@ -121,12 +138,10 @@ function updateNegs() {
 
 function onCellMarked(i, j) {
     if (!gTimerIntervalId) startTimer()
-    if (gBoard[i][j].isMine && gBoard[i][j].isShown) return
     gBoard[i][j].isMarked = (gBoard[i][j].isMarked) ? false : true
     const elCell = document.querySelector(`.cell-${i}-${j}`)
     elCell.innerText = (gBoard[i][j].isMarked) ? FLAG_IMG : ""
-    if (gBoard[i][j].isMarked && gBoard[i][j].isMine) gGame.markedCount++
-    if (!gBoard[i][j].isMarked && gBoard[i][j].isMine) gGame.markedCount--
+    gGame.markedCount = (gBoard[i][j].isMarked) ? gGame.markedCount + 1 : gGame.markedCount - 1
     checkVictory()
 }
 
@@ -134,7 +149,6 @@ function checkVictory() {
     if (gGame.shownCount + gGame.markedCount === gBoardSize * gBoardSize) {
         console.log('victori')
         clearInterval(gTimerIntervalId)
-        renderSmily(HAPPY_IMG)
     }
 }
 
@@ -145,49 +159,4 @@ function startTimer() {
         const diff = Date.now() - startTime
         elTimer.innerText = (diff / 1000).toFixed(3)
     }, 10)
-}
-
-function renderSmily(smily) {
-    const elSmily = document.querySelector(".smily")
-    elSmily.innerText = smily
-}
-
-function onRestart() {
-    clearInterval(gTimerIntervalId)
-    const elTimer = document.querySelector('.timer')
-    elTimer.innerText = "0.000"
-    onInit()
-}
-
-function createGame() {
-    return {
-        isOn: false,
-        lives: 3,
-        markedCount: 0,
-        shownCount: 0,
-        secsPassed: 0
-    }
-}
-
-function createBoard() {
-    const board = createMat(gBoardSize, gBoardSize)
-    return board
-}
-
-function onStartlevel1() {
-    console.log('test')
-    gBoardSize = 4
-    gMinesAmount = 2
-    onInit()
-}
-
-function onStartlevel2() {
-    gBoardSize = 8
-    gMinesAmount = 14
-    onInit()
-}
-function onStartlevel3() {
-    gBoardSize = 12
-    gMinesAmount = 32
-    onInit()
 }
