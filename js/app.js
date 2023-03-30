@@ -48,6 +48,7 @@ function onCellClicked(ROW, COL) {
     if (gBoard[ROW][COL].isMarked || gBoard[ROW][COL].isShown) return
     const elCell = document.querySelector(`.cell-${ROW}-${COL}`)
     gBoard[ROW][COL].isShown = true
+    playAudio("sound/open.mp3")
     elCell.classList.add("shown")
     gGame.shownCount++
     if (gBoard[ROW][COL].isShown && gBoard[ROW][COL].isMine) getMineExplotion(elCell)
@@ -79,8 +80,9 @@ function setMinesNegsCount(BOARD, ROW, COL) {
 }
 
 function getMineExplotion(elCell) {
+    playAudio("sound/explotion.mp3")
     elCell.innerText = `${MINE_IMG}`
-    elCell.classList.add("explosion")
+    elCell.classList.add("explotion")
     gGame.lives--
     if (gGame.lives === 0) gameOver()
 }
@@ -96,6 +98,7 @@ function gameOver() {
                 setTimeout(() => {
                     elCell.innerText = `${MINE_IMG}`
                     elCell.classList.add("explosion")
+                    playAudio("sound/explotion.mp3")
                 }, 700)
             }
         }
