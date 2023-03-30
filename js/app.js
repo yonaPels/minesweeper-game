@@ -181,17 +181,20 @@ function createBoard() {
 }
 
 function onStartlevel1() {
+    playAudio("sound/start.mp3")
     gBoardSize = 4
     gMinesAmount = 2
     onInit()
 }
 
 function onStartlevel2() {
+    playAudio("sound/start.mp3")
     gBoardSize = 8
     gMinesAmount = 14
     onInit()
 }
 function onStartlevel3() {
+    playAudio("sound/start.mp3")
     gBoardSize = 12
     gMinesAmount = 32
     onInit()
