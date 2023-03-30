@@ -44,7 +44,7 @@ function onCellClicked(ROW, COL) {
         setMinesCount(ROW, COL)
         updateNegs()
     }
-    if (gBoard[ROW][COL].isMarked) return
+    if (gBoard[ROW][COL].isMarked || gBoard[ROW][COL].isShown) return
     const elCell = document.querySelector(`.cell-${ROW}-${COL}`)
     gBoard[ROW][COL].isShown = true
     elCell.classList.add("shown")
