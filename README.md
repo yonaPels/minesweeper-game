@@ -1,1 +1,2 @@
-# Minesweeper-game-sprint
+# minesweeper-game
+sprint 1
