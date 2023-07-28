@@ -12,10 +12,12 @@
 <body onload="onInit()">
     <div>
         <button class="smily" onclick="onRestart()">restart</button>
-        <button class="hint" onclick="onGetHint()">HINT</button>
-        <button class="safeclick" onclick="onSafeClick()">3 SAFE CLICKS</button>
-        <button class="timer">0.000</button>
-        <button class="preparation">preparation</button>
+        <div class="btns">
+            <button class="hint" onclick="onGetHint()">HINT</button>
+            <button class="safeclick" onclick="onSafeClick()">3 SAFE CLICKS</button>
+            <button class="timer">0.000</button>
+            <button class="preparation">preparation</button>
+        </div>
     </div>
     <div class="board"></div>
     <div class="levels">
@@ -25,7 +27,7 @@
     </div>
     <footer>yoni pels</footer>
 
-    <script src="js/util.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="script/app.js"></script>
 
 </body>
